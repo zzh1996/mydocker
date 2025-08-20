@@ -56,7 +56,8 @@ RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
     git config --global core.pager delta && \
     git config --global interactive.diffFilter 'delta --color-only' && \
     git config --global delta.navigate true && \
-    git config --global merge.conflictStyle zdiff3
+    git config --global merge.conflictStyle zdiff3 && \
+    ~/.local/bin/uv tool install ipython
 
 ENV TZ=America/Los_Angeles
 CMD ["zsh"]
