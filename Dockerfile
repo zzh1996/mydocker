@@ -1,7 +1,7 @@
 FROM debian:13
 
 RUN apt update && apt upgrade -y && \
-    apt install -y bash-completion ca-certificates curl git gnupg htop less locales-all man-db openssh-server psmisc python3-venv rsync sudo tmux vim wget iftop iotop build-essential zsh fio smartmontools apache2-utils arch-install-scripts cloc cmake make gdb jq ncdu progress rclone strace socat binutils dnsutils whois mtr lftp iperf3 ranger tcpdump zstd libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev libncurses6 libtinfo6 pkg-config
+    apt install -y bash-completion ca-certificates curl git gnupg htop less locales-all man-db openssh-server psmisc python3-venv rsync sudo tmux vim wget iftop iotop build-essential zsh fio smartmontools apache2-utils arch-install-scripts cloc cmake make gdb jq ncdu progress rclone strace socat binutils dnsutils whois mtr lftp iperf3 ranger tcpdump zstd ffmpeg exiftool netcat-openbsd p7zip sqlite3 libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev libncurses6 libtinfo6 pkg-config
 RUN useradd -ms /usr/bin/zsh zzh1996 && \
     usermod -aG sudo zzh1996 && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
@@ -44,8 +44,19 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | b
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Haskell
-# RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh && \
-    # echo 'source ~/.ghcup/env' >> ~/.zshrc
+RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh && \
+    echo 'source ~/.ghcup/env' >> ~/.zshrc
+
+# Homebrew
+RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
+
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
+    brew install jless ripgrep git-delta && \
+    git config --global core.pager delta && \
+    git config --global interactive.diffFilter 'delta --color-only' && \
+    git config --global delta.navigate true && \
+    git config --global merge.conflictStyle zdiff3
 
 ENV TZ=America/Los_Angeles
 CMD ["zsh"]
