@@ -60,4 +60,7 @@ RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
     ~/.local/bin/uv tool install ipython
 
 ENV TZ=America/Los_Angeles
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 CMD ["zsh"]
