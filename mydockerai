@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DIR="${1:-.}"
+DIR="$(realpath "$DIR")"
+DIRNAME="$(basename "$DIR")"
+TARGET="/home/zzh1996/$DIRNAME"
+
+docker run --rm -it \
+    -v ~/.codex:/home/zzh1996/.codex \
+    -v ~/.claude.json:/home/zzh1996/.claude.json \
+    -v ~/.claude:/home/zzh1996/.claude \
+    -v "$DIR:$TARGET" \
+    -w "$TARGET" \
+    zzh1996/mydocker

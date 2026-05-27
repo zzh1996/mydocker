@@ -59,6 +59,9 @@ RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
     git config --global merge.conflictStyle zdiff3 && \
     ~/.local/bin/uv tool install ipython
 
+RUN curl -fsSL https://claude.ai/install.sh | bash && \
+    curl -fsSL https://chatgpt.com/codex/install.sh | sh
+
 ENV TZ=America/Los_Angeles
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
